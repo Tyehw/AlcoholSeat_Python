@@ -5,94 +5,34 @@ date: "2022"
 output: html_document
 ---
 
-```{r initial-setup, eval=T, echo=FALSE, include=FALSE}
-#install.packages('reticulate')
-reticulate::virtualenv_create('testEnv')
-reticulate::use_virtualenv('testEnv')
-reticulate::virtualenv_install('testEnv', packages = 'numpy')
-#reticulate::virtualenv_install('testEnv', packages = 'matplotlib')
-reticulate::virtualenv_install('testEnv', packages = 'pandas')
-reticulate::virtualenv_install('testEnv', packages = 'scipy')
-reticulate::virtualenv_install('testEnv', packages = 'plotnine')
-reticulate::virtualenv_install('testEnv', packages = 'dpython')
-#reticulate::virtualenv_install('testEnv', packages = 'sklearn')
-reticulate::virtualenv_install('testEnv', packages = 'tabulate')
-reticulate::virtualenv_install('testEnv', packages = 'pingouin')
-
-```
 
 ```{r include=FALSE}
 require(tidyverse)
 require(tigerstats)
 require(reticulate)
 require(foreign)
+data(ucdavis1)
+data = ucdavis1
 ```
+
 ## Our Goal is to answer this question Is there a difference between the alcohol consumed between the row
 ## you choose to sit in??
 
+# Introcuction
+`
+# Data Description
 
-```{python}
-import pandas as pd
-#from plotnine import *
-ourdata = pd.read_csv('UCDavis.csv')
-ourdata2 = ourdata[['Seat','alcohol']]
-ourdata2.columns
-
-#ourdata.columns
-```
-
-## Now with ggplot - first select the basic data
+## Graphical summary
 
 
-```{python}
-from plotnine import *
+## Numerical summary
 
-ggplot(ourdata) + aes(x="Seat", y="alcohol") + geom_boxplot()
-
-```
-
-## Numberical summary
-
-```{python}
-import numpy as np
-
-ourdata2.columns
-
-ourdata2.groupby("Seat")['alcohol'].describe().reset_index()	
-
-```
 
 ##  Inferential
 
+## Statistical Test
+When significant follow up with TukeyHSD  
 
-```{python}
-import pingouin as pg
-import pandas as pd
-import numpy as np
-
-
-#perform Welch's ANOVA
-pg.welch_anova(dv='alcohol', between='Seat', data=ourdata2)
-
-```
-
-
-```{python}
-
-pg.pairwise_tukey(dv='alcohol', between='Seat', data=ourdata2)
-```
-
-
-
-
-## When significant follow up with TukeyHSD  
-
-```{python}
-from statsmodels.stats.multicomp import pairwise_tukeyhsd
-tukey = pairwise_tukeyhsd(endog=ourdata2['alcohol'],
-                          groups=ourdata2['Seat'],
-                          alpha=0.05)
-                          
-print(tukey)
+# Results and Conclusions
 ```
 
